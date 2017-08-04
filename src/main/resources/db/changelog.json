@@ -1,0 +1,835 @@
+{
+    "databaseChangeLog": [{
+        "changeSet": {
+            "id": "initial-schema",
+            "author": "brettmeyer",
+            "changes": [{
+                "createTable": {
+                    "tableName": "users",
+                    "columns": [{
+                        "column": {
+                            "name": "id",
+                            "type": "int",
+                            "autoIncrement": true,
+                            "constraints": [{
+                                "primaryKey": true,
+                                "nullable": false
+                            }]
+                        }
+                    }, {
+                        "column": {
+                            "name": "user_name",
+                            "type": "varchar(255)",
+                            "constraints": [{
+                                "unique": true,
+                                "nullable": true
+                            }]
+                        }
+                    }, {
+                        "column": {
+                            "name": "password",
+                            "type": "varchar(255)",
+                            "constraints": [{
+                                "nullable": true
+                            }]
+                        }
+                    }, {
+                        "column": {
+                            "name": "first_name",
+                            "type": "varchar(255)",
+                            "constraints": [{
+                                "nullable": true
+                            }]
+                        }
+                    }, {
+                        "column": {
+                            "name": "middle_name",
+                            "type": "varchar(255)",
+                            "constraints": [{
+                                "nullable": true
+                            }]
+                        }
+                    }, {
+                        "column": {
+                            "name": "last_name",
+                            "type": "varchar(255)",
+                            "constraints": [{
+                                "nullable": true
+                            }]
+                        }
+                    }, {
+                        "column": {
+                            "name": "email_address",
+                            "type": "varchar(255)",
+                            "constraints": [{
+                                "nullable": true
+                            }]
+                        }
+                    }, {
+                        "column": {
+                            "name": "phone",
+                            "type": "varchar(255)",
+                            "constraints": [{
+                                "nullable": true
+                            }]
+                        }
+                    }, {
+                        "column": {
+                            "name": "address",
+                            "type": "varchar(255)",
+                            "constraints": [{
+                                "nullable": true
+                            }]
+                        }
+                    }, {
+                        "column": {
+                            "name": "city",
+                            "type": "varchar(255)",
+                            "constraints": [{
+                                "nullable": true
+                            }]
+                        }
+                    }, {
+                        "column": {
+                            "name": "state",
+                            "type": "varchar(255)",
+                            "constraints": [{
+                                "nullable": true
+                            }]
+                        }
+                    }, {
+                        "column": {
+                            "name": "zip_code",
+                            "type": "varchar(255)",
+                            "constraints": [{
+                                "nullable": true
+                            }]
+                        }
+                    }, {
+                        "column": {
+                            "name": "country",
+                            "type": "varchar(255)",
+                            "constraints": [{
+                                "nullable": true
+                            }]
+                        }
+                    }, {
+                        "column": {
+                            "name": "created_at",
+                            "type": "datetime",
+                            "constraints": [{
+                                "nullable": true
+                            }]
+                        }
+                    }, {
+                        "column": {
+                            "name": "updated_at",
+                            "type": "datetime",
+                            "constraints": [{
+                                "nullable": true
+                            }]
+                        }
+                    }]
+                }
+            }]
+        }
+    }, {
+        "changeSet": {
+            "id": "initial-user-data",
+            "author": "brettmeyer",
+            "changes": [{
+                "loadData": {
+                    "tableName": "users",
+                    "file": "db/data/users.csv",
+                    "quotchar": "\""
+                }
+            }]
+        }
+    }, {
+        "changeSet": {
+            "id": "enabled-users",
+            "author": "brettmeyer",
+            "changes": [{
+                "addColumn": {
+                    "tableName": "users",
+                    "columns": [{
+                        "column": {
+                            "name": "enabled",
+                            "type": "tinyint",
+                            "constraints": [{
+                                "nullable": true
+                            }]
+                        }
+                    }]
+                },
+                "update": {
+                    "tableName": "users",
+                    "columns": [{
+                        "column": {
+                            "name": "enabled",
+                            "value": 1
+                        }
+                    }]
+                }
+            }]
+        }
+    }, {
+        "changeSet": {
+            "id": "audit-info",
+            "author": "brettmeyer",
+            "changes": [{
+                "addColumn": {
+                    "tableName": "users",
+                    "columns": [{
+                        "column": {
+                            "name": "created_by_id",
+                            "type": "int(11)",
+                            "constraints": [{
+                                "nullable": true
+                            }]
+                        }
+                    }, {
+                        "column": {
+                            "name": "updated_by_id",
+                            "type": "int(11)",
+                            "constraints": [{
+                                "nullable": true
+                            }]
+                        }
+                    }]
+                }
+            }, {
+                "addForeignKeyConstraint": {
+                    "baseTableName": "users",
+                    "baseColumnNames": "created_by_id",
+                    "constraintName": "fk_created_by_users",
+                    "referencedColumnNames": "id",
+                    "referencedTableName": "users",
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE"
+                }
+            }, {
+                "addForeignKeyConstraint": {
+                    "baseTableName": "users",
+                    "baseColumnNames": "updated_by_id",
+                    "constraintName": "fk_updated_by_users",
+                    "referencedColumnNames": "id",
+                    "referencedTableName": "users",
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE"
+                }
+            }]
+        }
+    }, {
+        "changeSet": {
+            "id": "uuids",
+            "author": "brettmeyer",
+            "changes": [{
+                "delete": {
+                    "tableName": "users"
+                }
+            }, {
+                "dropForeignKeyConstraint": {
+                    "baseTableName": "users",
+                    "constraintName": "fk_created_by_users"
+                }
+            }, {
+                "dropForeignKeyConstraint": {
+                    "baseTableName": "users",
+                    "constraintName": "fk_updated_by_users"
+                }
+            }, {
+                "modifyDataType": {
+                    "tableName": "users",
+                    "columnName": "id",
+                    "newDataType": "BINARY(16)",
+                    "autoIncrement": false,
+                    "constraints": [{
+                        "nullable": true
+                    }]
+                }
+            }, {
+                "dropDefaultValue": {
+                    "tableName": "users",
+                    "columnName": "id"
+                }
+            }, {
+                "modifyDataType": {
+                    "tableName": "users",
+                    "columnName": "created_by_id",
+                    "newDataType": "BINARY(16)",
+                    "defaultValue": ""
+                }
+            }, {
+                "modifyDataType": {
+                    "tableName": "users",
+                    "columnName": "updated_by_id",
+                    "newDataType": "BINARY(16)"
+                }
+            }, {
+                "addForeignKeyConstraint": {
+                    "baseTableName": "users",
+                    "baseColumnNames": "created_by_id",
+                    "constraintName": "fk_created_by_users",
+                    "referencedColumnNames": "id",
+                    "referencedTableName": "users",
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE"
+                }
+            }, {
+                "addForeignKeyConstraint": {
+                    "baseTableName": "users",
+                    "baseColumnNames": "updated_by_id",
+                    "constraintName": "fk_updated_by_users",
+                    "referencedColumnNames": "id",
+                    "referencedTableName": "users",
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE"
+                }
+            }]
+        }
+     }, {
+        "changeSet": {
+            "id": "uuid-users",
+            "author": "brettmeyer",
+            "changes": [{
+                "loadData": {
+                    "tableName": "users",
+                    "file": "db/data/users-uuid.csv",
+                    "quotchar": "\"",
+                    "columns": [{
+                        "name": "id",
+                        "type": "COMPUTED"
+                    }]
+                }
+            }]
+        }
+     }, {
+        "changeSet": {
+            "id": "user-list",
+            "author": "brettmeyer",
+            "changes": [{
+                "loadData": {
+                    "tableName": "users",
+                    "file": "db/data/user-list.csv",
+                    "quotchar": "\"",
+                    "columns": [{
+                        "name": "id",
+                        "type": "COMPUTED"
+                    }]
+                }
+            }]
+        }
+     }, {
+        "changeSet": {
+            "id": "posts",
+            "author": "brettmeyer",
+            "changes": [{
+                "createTable": {
+                    "tableName": "categories",
+                    "columns": [{
+                        "column": {
+                            "name": "id",
+                            "type": "BINARY(16)",
+                            "constraints": [{
+                                "primaryKey": true,
+                                "nullable": false
+                            }]
+                        }
+                    }, {
+                        "column": {
+                            "name": "name",
+                            "type": "varchar(255)",
+                            "constraints": [{
+                                "nullable": true
+                            }]
+                        }
+                    }, {
+                        "column": {
+                            "name": "created_by_id",
+                            "type": "BINARY(16)",
+                            "constraints": [{
+                                "nullable": true
+                            }]
+                        }
+                    }, {
+                        "column": {
+                            "name": "updated_by_id",
+                            "type": "BINARY(16)",
+                            "constraints": [{
+                                "nullable": true
+                            }]
+                        }
+                    }, {
+                        "column": {
+                            "name": "created_at",
+                            "type": "datetime",
+                            "constraints": [{
+                                "nullable": true
+                            }]
+                        }
+                    }, {
+                        "column": {
+                            "name": "updated_at",
+                            "type": "datetime",
+                            "constraints": [{
+                                "nullable": true
+                            }]
+                        }
+                    }]
+                }
+            }, {
+                "createTable": {
+                    "tableName": "tags",
+                    "columns": [{
+                        "column": {
+                            "name": "id",
+                            "type": "BINARY(16)",
+                            "constraints": [{
+                                "primaryKey": true,
+                                "nullable": false
+                            }]
+                        }
+                    }, {
+                        "column": {
+                            "name": "name",
+                            "type": "varchar(255)",
+                            "constraints": [{
+                                "nullable": true
+                            }]
+                        }
+                    }, {
+                        "column": {
+                            "name": "created_by_id",
+                            "type": "BINARY(16)",
+                            "constraints": [{
+                                "nullable": true
+                            }]
+                        }
+                    }, {
+                        "column": {
+                            "name": "updated_by_id",
+                            "type": "BINARY(16)",
+                            "constraints": [{
+                                "nullable": true
+                            }]
+                        }
+                    }, {
+                        "column": {
+                            "name": "created_at",
+                            "type": "datetime",
+                            "constraints": [{
+                                "nullable": true
+                            }]
+                        }
+                    }, {
+                        "column": {
+                            "name": "updated_at",
+                            "type": "datetime",
+                            "constraints": [{
+                                "nullable": true
+                            }]
+                        }
+                    }]
+                }
+            }, {
+                "createTable": {
+                    "tableName": "posts",
+                    "columns": [{
+                        "column": {
+                            "name": "id",
+                            "type": "BINARY(16)",
+                            "constraints": [{
+                                "primaryKey": true,
+                                "nullable": false
+                            }]
+                        }
+                    }, {
+                        "column": {
+                            "name": "title",
+                            "type": "varchar(255)",
+                            "constraints": [{
+                                "nullable": true
+                            }]
+                        }
+                    }, {
+                        "column": {
+                            "name": "content",
+                            "type": "mediumtext",
+                            "constraints": [{
+                                "nullable": true
+                            }]
+                        }
+                    }, {
+                        "column": {
+                            "name": "alias",
+                            "type": "varchar(255)",
+                            "constraints": [{
+                                "nullable": true
+                            }]
+                        }
+                    }, {
+                        "column": {
+                            "name": "authored_by_id",
+                            "type": "BINARY(16)",
+                            "constraints": [{
+                                "nullable": true
+                            }]
+                        }
+                    }, {
+                        "column": {
+                            "name": "published_at",
+                            "type": "datetime",
+                            "constraints": [{
+                                "nullable": true
+                            }]
+                        }
+                    }, {
+                        "column": {
+                            "name": "created_by_id",
+                            "type": "BINARY(16)",
+                            "constraints": [{
+                                "nullable": true
+                            }]
+                        }
+                    }, {
+                        "column": {
+                            "name": "updated_by_id",
+                            "type": "BINARY(16)",
+                            "constraints": [{
+                                "nullable": true
+                            }]
+                        }
+                    }, {
+                        "column": {
+                            "name": "created_at",
+                            "type": "datetime",
+                            "constraints": [{
+                                "nullable": true
+                            }]
+                        }
+                    }, {
+                        "column": {
+                            "name": "updated_at",
+                            "type": "datetime",
+                            "constraints": [{
+                                "nullable": true
+                            }]
+                        }
+                    }]
+                }
+            }]
+        }
+     }, {
+        "changeSet": {
+            "id": "posts-fks",
+            "author": "brettmeyer",
+            "changes": [{
+                "addForeignKeyConstraint": {
+                    "baseTableName": "categories",
+                    "baseColumnNames": "created_by_id",
+                    "constraintName": "fk_categories_created_by_users",
+                    "referencedColumnNames": "id",
+                    "referencedTableName": "users",
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE"
+                }
+            }, {
+                "addForeignKeyConstraint": {
+                    "baseTableName": "categories",
+                    "baseColumnNames": "updated_by_id",
+                    "constraintName": "fk_categories_updated_by_users",
+                    "referencedColumnNames": "id",
+                    "referencedTableName": "users",
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE"
+                }
+            }, {
+                "addForeignKeyConstraint": {
+                    "baseTableName": "tags",
+                    "baseColumnNames": "created_by_id",
+                    "constraintName": "fk_tags_created_by_users",
+                    "referencedColumnNames": "id",
+                    "referencedTableName": "users",
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE"
+                }
+            }, {
+                "addForeignKeyConstraint": {
+                    "baseTableName": "tags",
+                    "baseColumnNames": "updated_by_id",
+                    "constraintName": "fk_tags_updated_by_users",
+                    "referencedColumnNames": "id",
+                    "referencedTableName": "users",
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE"
+                }
+            }, {
+                "addForeignKeyConstraint": {
+                    "baseTableName": "posts",
+                    "baseColumnNames": "created_by_id",
+                    "constraintName": "fk_posts_created_by_users",
+                    "referencedColumnNames": "id",
+                    "referencedTableName": "users",
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE"
+                }
+            }, {
+                "addForeignKeyConstraint": {
+                    "baseTableName": "posts",
+                    "baseColumnNames": "updated_by_id",
+                    "constraintName": "fk_posts_updated_by_users",
+                    "referencedColumnNames": "id",
+                    "referencedTableName": "users",
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE"
+                }
+            }, {
+                "addForeignKeyConstraint": {
+                    "baseTableName": "posts",
+                    "baseColumnNames": "authored_by_id",
+                    "constraintName": "fk_posts_authored_by_users",
+                    "referencedColumnNames": "id",
+                    "referencedTableName": "users",
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE"
+                }
+            }]
+        }
+    }, {
+        "changeSet": {
+            "id": "posts-many-to-many",
+            "author": "brettmeyer",
+            "changes": [{
+                "createTable": {
+                    "tableName": "posts_categories",
+                    "columns": [{
+                        "column": {
+                            "name": "id",
+                            "type": "int",
+                            "autoIncrement": true,
+                            "constraints": [{
+                                "primaryKey": true,
+                                "nullable": false
+                            }]
+                        }
+                    }, {
+                        "column": {
+                            "name": "post_id",
+                            "type": "BINARY(16)",
+                            "constraints": [{
+                                "nullable": false
+                            }]
+                        }
+                    }, {
+                        "column": {
+                            "name": "category_id",
+                            "type": "BINARY(16)",
+                            "constraints": [{
+                                "nullable": false
+                            }]
+                        }
+                    }]
+                }
+            }, {
+                 "createTable": {
+                    "tableName": "posts_tags",
+                    "columns": [{
+                        "column": {
+                            "name": "id",
+                            "type": "int",
+                            "autoIncrement": true,
+                            "constraints": [{
+                                "primaryKey": true,
+                                "nullable": false
+                            }]
+                        }
+                    }, {
+                        "column": {
+                            "name": "post_id",
+                            "type": "BINARY(16)",
+                            "constraints": [{
+                                "nullable": false
+                            }]
+                        }
+                    }, {
+                        "column": {
+                            "name": "tag_id",
+                            "type": "BINARY(16)",
+                            "constraints": [{
+                                "nullable": false
+                            }]
+                        }
+                    }]
+                }
+            }, {
+                "addForeignKeyConstraint": {
+                    "baseTableName": "posts_categories",
+                    "baseColumnNames": "post_id",
+                    "constraintName": "fk_post_categories_posts",
+                    "referencedColumnNames": "id",
+                    "referencedTableName": "posts",
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE"
+                }
+            }, {
+                "addForeignKeyConstraint": {
+                    "baseTableName": "posts_categories",
+                    "baseColumnNames": "category_id",
+                    "constraintName": "fk_post_categories_categories",
+                    "referencedColumnNames": "id",
+                    "referencedTableName": "categories",
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE"
+                }
+            }, {
+                "addForeignKeyConstraint": {
+                    "baseTableName": "posts_tags",
+                    "baseColumnNames": "post_id",
+                    "constraintName": "fk_post_tags_posts",
+                    "referencedColumnNames": "id",
+                    "referencedTableName": "posts",
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE"
+                }
+            }, {
+                "addForeignKeyConstraint": {
+                    "baseTableName": "posts_tags",
+                    "baseColumnNames": "tag_id",
+                    "constraintName": "fk_post_tags_tags",
+                    "referencedColumnNames": "id",
+                    "referencedTableName": "tags",
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE"
+                }
+            }]
+        }
+    }, {
+        "changeSet": {
+            "id": "user-login",
+            "author": "brettmeyer",
+            "changes": [{
+                "addColumn": {
+                    "tableName": "users",
+                    "columns": [{
+                        "column": {
+                            "name": "last_logged_in_at",
+                            "type": "datetime",
+                            "constraints": [{
+                                "nullable": true
+                            }]
+                        }
+                    }, {
+                        "column": {
+                            "name": "forgot_password_key",
+                            "type": "varchar(255)",
+                            "constraints": [{
+                                "nullable": true
+                            }]
+                        }
+                    }]
+                }
+            }]
+        }
+    }, {
+        "changeSet": {
+            "id": "table-columns",
+            "author": "brettmeyer",
+            "changes": [{
+                "createTable": {
+                    "tableName": "table_columns",
+                    "columns": [{
+                        "column": {
+                            "name": "id",
+                            "type": "int",
+                            "autoIncrement": true,
+                            "constraints": [{
+                                "primaryKey": true,
+                                "nullable": false
+                            }]
+                        }
+                    }, {
+                        "column": {
+                            "name": "user_id",
+                            "type": "BINARY(16)",
+                            "constraints": [{
+                                "nullable": true
+                            }]
+                        }
+                    }, {
+                        "column": {
+                            "name": "section",
+                            "type": "varchar(255)",
+                            "constraints": [{
+                                "nullable": true
+                            }]
+                        }
+                    }, {
+                        "column": {
+                            "name": "name",
+                            "type": "varchar(255)",
+                            "constraints": [{
+                                "nullable": true
+                            }]
+                        }
+                    }, {
+                        "column": {
+                            "name": "visible",
+                            "type": "tinyint",
+                            "constraints": [{
+                                "nullable": true
+                            }]
+                        }
+                    }, {
+                        "column": {
+                            "name": "created_at",
+                            "type": "datetime",
+                            "constraints": [{
+                                "nullable": true
+                            }]
+                        }
+                    }]
+                }
+            }, {
+                "addForeignKeyConstraint": {
+                    "baseTableName": "table_columns",
+                    "baseColumnNames": "user_id",
+                    "constraintName": "fk_table_columns_users",
+                    "referencedColumnNames": "id",
+                    "referencedTableName": "users",
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE"
+                }
+            }]
+        }
+    }, {
+        "changeSet": {
+            "id": "users-createdBy-updatedBy",
+            "author": "brettmeyer",
+            "changes": [{
+                "sql": {
+                    "sql": "
+                        UPDATE users
+                        SET users.created_by_id = (
+                            SELECT id
+                            FROM (
+                                SELECT u2.id
+                                FROM users u2
+                            ) AS sub_table
+                            ORDER BY RAND()
+                            LIMIT 1
+                        ), users.updated_by_id = (
+                            SELECT id
+                            FROM (
+                                SELECT u2.id
+                                FROM users u2
+                            ) AS sub_table
+                            ORDER BY RAND()
+                            LIMIT 1
+                        );
+                    ",
+                }
+            }]
+        }
+    }]
+}

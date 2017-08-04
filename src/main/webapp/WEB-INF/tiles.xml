@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+	
+	<!-- Layouts -->
+	<definition name="layout.base" template="/WEB-INF/layout/base.jsp"></definition>
+	<definition name="layout.login" extends="layout.base">
+		<put-attribute name="layout" value="/WEB-INF/layout/login.jsp" cascade="true" />
+	</definition>
+	<definition name="layout.basic" extends="layout.base">
+		<put-attribute name="navigation" value="/WEB-INF/components/navigation.jsp" cascade="true" />
+		<put-attribute name="layout" value="/WEB-INF/layout/basic.jsp" cascade="true" />
+		<put-list-attribute name="components" cascade="true"></put-list-attribute>
+	</definition>
+	<definition name="layout.error" template="/WEB-INF/layout/error.jsp"></definition>
+	
+	<!-- Login -->
+	<definition name="login.login" extends="layout.login">
+		<put-attribute name="navId" value="login" cascade="true" />
+		<put-attribute name="body" value="/WEB-INF/login/login.jsp" cascade="true" />
+	</definition>
+	<definition name="login.registration" extends="layout.login">
+		<put-attribute name="navId" value="registration" cascade="true" />
+		<put-attribute name="body" value="/WEB-INF/login/registration.jsp" cascade="true" />
+	</definition>
+	<definition name="login.forgot-password" extends="layout.login">
+		<put-attribute name="navId" value="forgot-password" cascade="true" />
+		<put-attribute name="body" value="/WEB-INF/login/forgot-password.jsp" cascade="true" />
+	</definition>
+	<definition name="login.forgot-password-sent" extends="layout.login">
+		<put-attribute name="navId" value="forgot-password" cascade="true" />
+		<put-attribute name="body" value="/WEB-INF/login/forgot-password-sent.jsp" cascade="true" />
+	</definition>
+	<definition name="login.change-password" extends="layout.login">
+		<put-attribute name="navId" value="change-password" cascade="true" />
+		<put-attribute name="body" value="/WEB-INF/login/change-password.jsp" cascade="true" />
+	</definition>
+	<definition name="login.change-password-invalid" extends="layout.login">
+		<put-attribute name="navId" value="change-password" cascade="true" />
+		<put-attribute name="body" value="/WEB-INF/login/change-password-invalid.jsp" cascade="true" />
+	</definition>
+	
+	<!-- Homepage -->
+	<definition name="main" extends="layout.basic">
+		<put-attribute name="navId" value="main" cascade="true" />
+		<put-attribute name="body" value="/WEB-INF/main/index.jsp" cascade="true" />
+	</definition>
+	
+	<!-- Users -->
+	<definition name="section.users" extends="layout.basic">
+		<put-attribute name="navId" value="users" cascade="true" />
+	</definition>
+	<definition name="users.list" extends="section.users">
+		<put-attribute name="body" value="/WEB-INF/users/list.jsp" cascade="true" />
+		<put-list-attribute name="components" cascade="true">
+	    	<add-attribute value="/WEB-INF/components/delete-confirmation.jsp" />
+	    	<add-attribute value="/WEB-INF/components/editable-form.jsp" />
+	    	<add-attribute value="/WEB-INF/components/pagination.jsp" />
+	    </put-list-attribute>
+	</definition>
+	<definition name="users.details" extends="section.users">
+		<put-attribute name="body" value="/WEB-INF/users/details.jsp" cascade="true" />
+	</definition>
+	<definition name="users.edit" extends="section.users">
+		<put-attribute name="body" value="/WEB-INF/users/edit.jsp" cascade="true" />
+	</definition>
+	<definition name="users.new" extends="section.users">
+		<put-attribute name="body" value="/WEB-INF/users/new.jsp" cascade="true" />
+	</definition>
+	<definition name="users.change-password" extends="section.users">
+		<put-attribute name="body" value="/WEB-INF/users/change-password.jsp" cascade="true" />
+	</definition>
+	
+	<!-- Posts -->
+	<definition name="section.posts" extends="layout.basic">
+		<put-attribute name="navId" value="posts" cascade="true" />
+	</definition>
+	<definition name="posts.list" extends="section.posts">
+		<put-attribute name="body" value="/WEB-INF/posts/list.jsp" cascade="true" />
+	</definition>
+	<definition name="posts.details" extends="section.posts">
+		<put-attribute name="body" value="/WEB-INF/posts/details.jsp" cascade="true" />
+	</definition>
+	<definition name="posts.edit" extends="section.posts">
+		<put-attribute name="body" value="/WEB-INF/posts/edit.jsp" cascade="true" />
+	</definition>
+	<definition name="posts.new" extends="section.posts">
+		<put-attribute name="body" value="/WEB-INF/posts/new.jsp" cascade="true" />
+	</definition>
+	
+	<!-- Categories -->
+	<definition name="section.categories" extends="layout.basic">
+		<put-attribute name="navId" value="categories" cascade="true" />
+	</definition>
+	<definition name="categories.list" extends="section.categories">
+		<put-attribute name="body" value="/WEB-INF/categories/list.jsp" cascade="true" />
+		<put-list-attribute name="components" cascade="true">
+	    	<add-attribute value="/WEB-INF/components/delete-confirmation.jsp" />
+	    </put-list-attribute>
+	</definition>
+	<definition name="categories.details" extends="section.categories">
+		<put-attribute name="body" value="/WEB-INF/categories/details.jsp" cascade="true" />
+	</definition>
+	<definition name="categories.edit" extends="section.categories">
+		<put-attribute name="body" value="/WEB-INF/categories/edit.jsp" cascade="true" />
+	</definition>
+	<definition name="categories.new" extends="section.categories">
+		<put-attribute name="body" value="/WEB-INF/categories/new.jsp" cascade="true" />
+	</definition>
+	
+	<!-- Tags -->
+	<definition name="section.tags" extends="layout.basic">
+		<put-attribute name="navId" value="tags" cascade="true" />
+	</definition>
+	<definition name="tags.list" extends="section.tags">
+		<put-attribute name="body" value="/WEB-INF/tags/list.jsp" cascade="true" />
+	</definition>
+	<definition name="tags.details" extends="section.tags">
+		<put-attribute name="body" value="/WEB-INF/tags/details.jsp" cascade="true" />
+	</definition>
+	<definition name="tags.edit" extends="section.tags">
+		<put-attribute name="body" value="/WEB-INF/tags/edit.jsp" cascade="true" />
+	</definition>
+	<definition name="tags.new" extends="section.tags">
+		<put-attribute name="body" value="/WEB-INF/tags/new.jsp" cascade="true" />
+	</definition>
+	
+	<!-- Help -->
+	<definition name="section.help" extends="layout.basic">
+		<put-attribute name="navId" value="help" cascade="true" />
+	</definition>
+	<definition name="help.index" extends="section.help">
+		<put-attribute name="body" value="/WEB-INF/help/index.jsp" cascade="true" />
+	</definition>
+	
+	<!-- Errors -->
+	<definition name="errors.400" extends="layout.error">
+		<put-attribute name="body" value="/WEB-INF/errors/400.jsp" cascade="true" />
+	</definition>
+	<definition name="errors.404" extends="layout.error">
+		<put-attribute name="body" value="/WEB-INF/errors/404.jsp" cascade="true" />
+	</definition>
+	<definition name="errors.500" extends="layout.error">
+		<put-attribute name="body" value="/WEB-INF/errors/500.jsp" cascade="true" />
+	</definition>
+	
+</tiles-definitions>
